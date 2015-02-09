@@ -74,10 +74,10 @@ long readVcc() {
   // Calculate Vcc (in mV); 
 
   // Original value: 1125300 = 1.1*1023*1000.
-  // result = 1125300L / result; 
+  result = 1125300L / result; 
 
-  // Based on my measurements on my hardware. See referenced blog post.
-  result = 1099332L / result;
+  // Based on my measurements on my Micro. See referenced blog post.
+  // result = 1099332L / result;
 
   return result; // Vcc in millivolts
 }
@@ -99,9 +99,11 @@ double getInches()
   double voltage = analogRead(SONAR_PIN)*.0049;  //Analog In .49 mV per unit 
   double vccRaw = readVcc() / 1000.0;
 
-  // Calculate resistance from the 10ohm resistor in the LC Filter (see note above)
-  double vcc = vccRaw - ((3.4 / 1000 /* mAh draw */) * 10 /* ohms */);
-  // double vcc = vccRaw; // Or not...
+  // If using an LC filter on the MB1240, use this one
+  // Update the ohms value to match what you used in your filter
+  // double vcc = vccRaw - ((3.4 / 1000 /* mAh draw */) * 10 /* ohms */);
+
+  double vcc = vccRaw; // Or not...
 
   double scaling = vcc / 1024.0;
 
